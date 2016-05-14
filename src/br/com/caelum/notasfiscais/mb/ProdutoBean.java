@@ -3,16 +3,22 @@ package br.com.caelum.notasfiscais.mb;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.faces.bean.ManagedBean;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 import br.com.caelum.notasfiscais.dao.ProdutoDao;
 import br.com.caelum.notasfiscais.modelo.Produto;
 
-@ManagedBean(name = "produtoBean")
+@Named
+@RequestScoped
 public class ProdutoBean implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private Produto produto = new Produto();
 	private List<Produto> produtos;
+	
+	@Inject
+	private ProdutoDao dao;
 	
 	public Produto getProduto() {
 		return produto;
@@ -25,8 +31,6 @@ public class ProdutoBean implements Serializable {
 	public void grava() {
 		System.out.println("Será que vai passar por aqui?");
 		
-		ProdutoDao dao = new ProdutoDao();
-		
 		if(produto.getId() == null) {
 			dao.adiciona(produto);
 		} else {
@@ -37,9 +41,8 @@ public class ProdutoBean implements Serializable {
 	}
 	
 	public void remove(Produto produto) {
-		ProdutoDao dao = new ProdutoDao();
 		dao.remove(produto);
-		this.produtos = new ProdutoDao().listaTodos();
+		this.produtos = dao.listaTodos();
 	}
 	
 	public void reset(){
@@ -49,7 +52,7 @@ public class ProdutoBean implements Serializable {
 	public List<Produto> getProdutos() {
 		if(this.produtos == null) {
 			System.out.println("Carregando produtos...");
-			this.produtos = new ProdutoDao().listaTodos();
+			this.produtos = dao.listaTodos();
 		}
 		return produtos;
 	}
