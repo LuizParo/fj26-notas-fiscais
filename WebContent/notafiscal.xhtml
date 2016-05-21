@@ -4,7 +4,8 @@
 	  xmlns:ui="http://java.sun.com/jsf/facelets"
 	  xmlns:f="http://java.sun.com/jsf/core"
 	  xmlns:h="http://java.sun.com/jsf/html"
-	  xmlns:caelum="http://java.sun.com/jsf/composite/caelum">
+	  xmlns:caelum="http://java.sun.com/jsf/composite/caelum"
+	  xmlns:p="http://primefaces.org/ui">
 	<ui:composition template="/_template.xhtml">
 		<ui:define name="title">Sistemas de Notas Fiscais - UberDist</ui:define>
 		<ui:define name="corpo">
@@ -14,12 +15,10 @@
 					
 					<h:outputLabel value="CNPJ do Cliente:" for="cnpj" />
 					<h:message for="cnpj" />
-					<h:inputText id="cnpj" value="#{notaFiscalBean.notaFiscal.cnpj}" required="true" />
+					<p:inputMask id="cnpj" value="#{notaFiscalBean.notaFiscal.cnpj}" mask="99.999.999/9999-99" />
 					
 					<h:outputLabel value="Data:" />
-					<h:inputText value="#{notaFiscalBean.notaFiscal.data.time}">
-						<f:convertDateTime pattern="dd/MM/yyyy" timeZone="America/Sao_Paulo" />
-					</h:inputText>
+					<p:calendar pattern="dd/MM/yyyy" value="#{notaFiscalBean.notaFiscal.data.time}" />
 				</fieldset>
 				
 				<fieldset>
@@ -34,9 +33,7 @@
 						<h:outputLabel value="Quantidade:" />
 						<h:inputText value="#{notaFiscalBean.item.quantidade}" />
 						
-						<h:commandButton action="#{notaFiscalBean.guardaItem}" value="Guardar Item">
-							<f:ajax execute="@form" render=":formNotaFiscal:dtProdutos" />
-						</h:commandButton>
+						<h:commandButton action="#{notaFiscalBean.guardaItem}" value="Guardar Item"/>
 						
 					</h:form>
 					<h:dataTable id="dtProdutos" value="#{notaFiscalBean.notaFiscal.itens}" var="item" styleClass="dados" rowClasses="impar,par">
