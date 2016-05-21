@@ -9,6 +9,7 @@ import javax.inject.Named;
 
 import br.com.caelum.notasfiscais.dao.ProdutoDao;
 import br.com.caelum.notasfiscais.modelo.Produto;
+import br.com.caelum.notasfiscais.tx.Transactional;
 
 @Named
 @RequestScoped
@@ -28,6 +29,7 @@ public class ProdutoBean implements Serializable {
 		this.produto = produto;
 	}
 	
+	@Transactional
 	public void grava() {
 		System.out.println("Será que vai passar por aqui?");
 		
@@ -40,6 +42,7 @@ public class ProdutoBean implements Serializable {
 		this.produto = new Produto();
 	}
 	
+	@Transactional
 	public void remove(Produto produto) {
 		dao.remove(produto);
 		this.produtos = dao.listaTodos();
